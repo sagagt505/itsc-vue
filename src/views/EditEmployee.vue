@@ -1,9 +1,9 @@
 <template>
-  <div class="add-employee container">
+  <div class="edit-employee container">
     <h2 class="center-align indigo-text">Add New Employee</h2>
 
     <div class="row">
-      <form class="col s12" @submit="AddEmployee">
+      <form class="col s12" @submit="EditEmployee">
         <div class="row">
           <div class="field col s6">
             <input id="firstname" type="text" />
@@ -41,18 +41,15 @@
 <script>
 import axios from "axios";
 export default {
-  name: "AddEmployee",
+  name: "EditEmployee",
   data() {
     return {
-      firstname: null,
-      lastname: null,
-      birthday: null,
-      email: null,
+      employee: null,
       feedback: null
     };
   },
   methods: {
-    AddEmployee() {
+    EditEmployee() {
       axios
         .post("https://dummy-api.cm.edu/employees", {
           firstname: this.firstname,
@@ -63,6 +60,7 @@ export default {
         .then(this.$router.push({ name: "Index" }))
         .catch(err => console.log(err));
     }
+ 
 
   }
 };
