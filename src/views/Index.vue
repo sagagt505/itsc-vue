@@ -46,7 +46,7 @@ export default {
   },
   created() {
     axios
-      .get("http://dummy.restapiexample.com/api/v1/employees")
+      .get("https://dummy-api.cm.edu/employees")
       .then(res => (this.employees = res.data))
       .catch(err => console.log(err));
       
