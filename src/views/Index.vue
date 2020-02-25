@@ -1,6 +1,7 @@
 <template>
   <div class="index container">
     <router-link :to="{ name: 'AddEmployee' }"><a class="waves-effect waves-light btn">Add Employee</a></router-link>
+    <router-link :to="{ name: 'Login' }"><a class="waves-effect amber lighten-1 btn">Login</a></router-link>
     <table class="striped">
       <thead>
         <tr>
@@ -18,7 +19,9 @@
           <td>{{ employee.lastname }}</td>
           <td>{{ employee.birthday }}</td>
           <td>{{ employee.email }}</td>
-          <td><a class="waves-effect waves-light yellow darken-3 btn"><router-link :to="{name: 'EditEmployee', params: {id: employee.id}}">Update</router-link></a> <a class="waves-effect waves-light red btn" @click="deleteEmployee(employee.id)">Delete</a></td>
+          <td>
+            <a class="waves-effect waves-light yellow darken-3 btn"><router-link :to="{ name: 'EditEmployee', params: { id: employee.id } }">Update</router-link></a> <a class="waves-effect waves-light red btn" @click="deleteEmployee(employee.id)">Delete</a>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -28,7 +31,6 @@
 <script>
 // @ is an alias to /src
 
-import axios from "axios";
 export default {
   name: "Index",
   data() {
@@ -37,19 +39,27 @@ export default {
     };
   },
   methods: {
-    deleteEmployee(id) {
-      axios
-        .delete("https://dummy-api.cm.edu/employees/${id}")
-        .then(res => (this.employees = this.employees.filter(employee => employee.id !== id, res.data)))
-        .catch(err => console.log(err));
+    fetchItems() {
+      let uri = "https://dummy-api.cm.edu/employees";
+      this.axios.get(uri).then(response => {
+        this.employees = response.data;
+      });
     }
+
+    // deleteEmployee(id) {
+    //   axios
+    //     .delete("https://dummy-api.cm.edu/employees/${id}")
+    //     .then(res => (this.employees = this.employees.filter(employee => employee.id !== id, res.data)))
+    //     .catch(err => console.log(err));
+    // }
   },
+
   created() {
-    axios
-      .get("https://dummy-api.cm.edu/employees")
-      .then(res => (this.employees = res.data))
-      .catch(err => console.log(err));
-      
+    this.fetchItems();
+    // axios
+    //   .get("https://dummy-api.cm.edu/employees")
+    //   .then(res => (this.employees = res.data))
+    //   .catch(err => console.log(err));
   }
 };
 </script>
